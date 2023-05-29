@@ -1,5 +1,6 @@
 import numpy as np
 import scipy
+from sklearn.metrics import log_loss
 
 class FeatureAttribution:
     def __init__(self, model, inst, y, sorted_atr):
@@ -17,7 +18,7 @@ class FeatureAttribution:
             atr = self.sorted_atr[i]
             new_inst = np.copy(self.inst)
             np.put(new_inst, i, -1)
-            loss = 1 - self.model.predict_proba(new_inst.reshape(1, -1))[0][self.y]
+            loss = log_loss(self.y, self.model.predict_proba(new_inst.reshape(1, -1))[0])
             losses.append(loss)
             atr_values.append(abs(atr))
         self.losses = losses
@@ -38,7 +39,7 @@ class FeatureAttribution:
             new_inst = np.copy(self.inst)
             for j in range(i+1, len(sorted_feat)):
                 np.put(new_inst, sorted_feat[j], -1)
-            loss = 1 - self.model.predict_proba(new_inst.reshape(1, -1))[0][self.y]
+            loss = log_loss(self.y, self.model.predict_proba(new_inst.reshape(1, -1))[0])
             if loss < threshold:
                 min_k = i+1
         return min_k
