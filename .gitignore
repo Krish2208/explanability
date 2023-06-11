@@ -7,3 +7,4 @@ archive.zip
 rule-matrix-py
 py-ciu
 Model Training/models/
+Model Training/explanations/
