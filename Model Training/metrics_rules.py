@@ -56,7 +56,7 @@ def normalize_test(X_train, X_test):
 
 def calc_similarity(exp, X_test_norm):
     dbscan = sklearn.cluster.DBSCAN(eps=0.5, min_samples=10)
-    dbscan.fit(X_test_norm[:400])
+    dbscan.fit(X_test_norm)
     labels = dbscan.labels_
     mean_dist = []
     for i in np.unique(labels):
